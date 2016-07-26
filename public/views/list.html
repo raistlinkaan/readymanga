@@ -1,0 +1,26 @@
+<div class="row tim-row">
+    <div class="col-md-12">
+        <h3>Search Manga</h3>
+        <div class="form-group is-empty">
+            <input type="text" value="" placeholder="Keyword" class="form-control" ng-model="searchKeyword">
+            <span class="material-input"></span>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <button class="btn btn-primary" ng-click="search()">Search<div class="ripple-container"></div></button>
+    </div>
+</div>
+<div class="row tim-row">
+    <div class="container">
+        <table class="table" show-filter="true">
+            <tr ng-repeat="manga in filteredMangas">
+                <td><img class="img-rounded img-responsive img-raised" style="width: 225px;"
+                         src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}"/></td>
+                <td>
+                    <a ng-href="#/manga/{{manga.i}}">{{ manga.t }}</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <ul ng-show="totalItems != 0" uib-pagination direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></ul>
+</div>

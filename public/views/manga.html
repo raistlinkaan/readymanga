@@ -1,0 +1,46 @@
+<div class="row content">
+    <div class="col-sm-3 well">
+        <div class="well">
+            <img class="img-rounded img-responsive img-raised" style="width: 225px;"
+                 src="https://cdn.mangaeden.com/mangasimg/{{ manga.image }}">
+        </div>
+        <div class="well">
+            <ul>
+                <li>Artist: {{manga.artist}}</li>
+                <li>Author: {{manga.author}}</li>
+                <li>First Released: {{manga.released}}</li>
+                <li>Status: {{manga.status}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-sm-9">
+        <h1>{{manga.title}}</h1>
+        <h5>
+            <span ng-repeat="genre in manga.categories track by $index" class="label label-success"
+                  style="margin-right: 3px">{{genre}}</span>
+        </h5>
+        <br/>
+        <p>{{manga.description}}</p>
+        <br><br>
+
+        <hr>
+        <h2>Chapters</h2>
+        <table class="table" show-filter="true">
+            <tr>
+                <th>
+                    Chapter number
+                </th>
+                <th>
+                    Chapter name
+                </th>
+            </tr>
+            <tr ng-repeat="chapter in manga.chapters">
+                <td>{{ chapter[0] }}</td>
+                <td>
+                    <a ng-href="#/read/{{chapter[3]}}">{{chapter[2] != null ? chapter[2] : chapter[0]  }}</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
