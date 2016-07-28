@@ -115,6 +115,7 @@ angular.module("mangasApp", ['ngRoute', 'ui.bootstrap', 'angular-loading-bar', '
         $scope.currentImage = "0";
         $scope.manga = sharedProperties.getObject();
         $scope.selectedChapterId = $routeParams.id;
+        $scope.selectedChapterOrder = getChapterCount($scope.manga.chapters, $scope.selectedChapterId);
 
         Mangas.getChapter($routeParams.id).then(function (doc) {
             $scope.chapter = doc.data;
@@ -126,10 +127,33 @@ angular.module("mangasApp", ['ngRoute', 'ui.bootstrap', 'angular-loading-bar', '
         $scope.nextImage = function () {
             if(parseInt($scope.currentImage) != $scope.totalImages)
                 $scope.currentImage = (parseInt($scope.currentImage) + 1).toString();
-            //todo: navigate next chapter
+            else
+            {
+                $scope.selectedChapterOrder--;
+                $location.path("/read/" + $scope.manga.chapters[$scope.selectedChapterOrder][3]);
+            }
+        };
+
+        $scope.nextChapter = function () {
+            $scope.selectedChapterOrder--;
+            $location.path("/read/" + $scope.manga.chapters[$scope.selectedChapterOrder][3]);
+        };
+
+        $scope.prevChapter = function () {
+            $scope.selectedChapterOrder++;
+            $location.path("/read/" + $scope.manga.chapters[$scope.selectedChapterOrder][3]);
         };
 
         $scope.changeChapter = function () {
             $location.path("/read/" + $scope.selectedChapterId);
         };
     });
+
+function getChapterCount(arr,id)
+{
+    for(var i = 0; i<arr.length; i++)
+    {
+        if(arr[i][3] == id)
+            return i;
+    }
+}
