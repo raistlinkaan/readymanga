@@ -111,18 +111,25 @@ angular.module("mangasApp", ['ngRoute', 'ui.bootstrap', 'angular-loading-bar', '
             alert(response);
         });
     })
-    .controller("ReadController", function ($scope, $routeParams, Mangas, sharedProperties) {
-        $scope.currentImage = 0;
+    .controller("ReadController", function ($scope, $routeParams, $location, Mangas, sharedProperties) {
+        $scope.currentImage = "0";
         $scope.manga = sharedProperties.getObject();
         $scope.selectedChapterId = $routeParams.id;
 
         Mangas.getChapter($routeParams.id).then(function (doc) {
             $scope.chapter = doc.data;
+            $scope.totalImages = $scope.chapter.images.length -1;
         }, function (response) {
             alert(response);
         });
 
         $scope.nextImage = function () {
-            $scope.currentImage++;
+            if(parseInt($scope.currentImage) != $scope.totalImages)
+                $scope.currentImage = (parseInt($scope.currentImage) + 1).toString();
+            //todo: navigate next chapter
+        };
+
+        $scope.changeChapter = function () {
+            $location.path("/read/" + $scope.selectedChapterId);
         };
     });

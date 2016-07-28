@@ -4,11 +4,11 @@
             <div class="panel-body">
                 <div class="col col-sm-6" style="text-align: left">
                     <a href="/#/manga/{{manga.id}}">{{manga.title}}</a> >>
-                    <select name="selectedChapterId" ng-model="selectedChapterId">
+                    <select name="selectedChapterId" ng-model="selectedChapterId" ng-change="changeChapter()">
                         <option ng-repeat="chapter in manga.chapters" value="{{chapter[3]}}">{{chapter[0]}}</option>
                     </select> >>
                     <select name="currentImage" ng-model="currentImage">
-                        <option ng-repeat="c in chapter.images" value="{{c[0]}}">{{c[0]}}</option>
+                        <option ng-repeat="c in chapter.images" value="{{c[0]}}">{{c[0] + 1}}</option>
                     </select>
                 </div>
                 <div class="col col-sm-6" style="text-align: right">
@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col col-sm-12">
                     <a href="" ng-click="nextImage()"><img
-                            src="https://cdn.mangaeden.com/mangasimg/{{chapter.images[currentImage][1]}}"
+                            src="https://cdn.mangaeden.com/mangasimg/{{chapter.images[totalImages - currentImage][1]}}"
                             class="img-responsive shelf-img"></a>
                 </div>
             </div>
