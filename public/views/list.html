@@ -12,28 +12,15 @@
 </div>
 <div class="row tim-row">
     <div class="container">
-        <div class="row">
-            <!-- Card Projects -->
-            <div class="col-md-3" ng-repeat="manga in filteredMangas">
-                <div class="card">
-                    <div class="card-image">
-                        <img class="img-rounded img-responsive img-raised" style="width: 225px;"
-                             src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}"/>
-                        <span class="card-title">Material Cards</span>
-                    </div>
-                    <div class="card-content">
-                        <a ng-href="#/manga/{{manga.i}}"><h3>{{ manga.t }}</h3></a>
-                    </div>
-                    <div class="card-action">
-                        <a href="#" target="new_blank">Link</a>
-                        <a href="#" target="new_blank">Link</a>
-                        <a href="#" target="new_blank">Link</a>
-                        <a href="#" target="new_blank">Link</a>
-                        <a href="#" target="new_blank">Link</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <table class="table" show-filter="true">
+            <tr ng-repeat="manga in filteredMangas">
+                <td><img class="img-rounded img-responsive img-raised" style="width: 225px;"
+                         src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}"/></td>
+                <td>
+                    <a ng-href="#/manga/{{manga.i}}">{{ manga.t }}</a>
+                </td>
+            </tr>
+        </table>
 
 
         <!--<table class="table" show-filter="true">
