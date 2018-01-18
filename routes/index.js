@@ -5,7 +5,7 @@ var Client = require('node-rest-client').Client;
 var client = new Client();
 
 var limit = require("simple-rate-limiter");
-var request = limit(require("request")).to(40).per(1000);
+var request = limit(require("request")).to(10).per(1000);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
