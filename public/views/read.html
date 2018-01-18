@@ -1,44 +1,36 @@
-<div class="row">
-    <div class="col col-sm-12">
-        <div class="panel">
-            <div class="panel-body">
-                <div class="col col-sm-6" style="text-align: left">
-                    <a href="/#/manga/{{manga.id}}">{{manga.title}}</a> >>
+<section id="works" class="page single">
+    <div class="container">
+        <div class="sidebar full-width">
+            <div class="desktop-4 tablet-4 columns" style="padding-top: 42px;">
+                <h3><a href="/#/manga/{{manga.id}}">{{manga.title}}</a></h3>
+            </div>
+            <div class="desktop-8 tablet-8 nested columns">
+                <div class="desktop-2 tablet-4 columns">
+                    &nbsp;
+                </div>
+                <div class="desktop-2 tablet-2 columns">
+                    Chapter
                     <select name="selectedChapterId" ng-model="selectedChapterId" ng-change="changeChapter()">
                         <option ng-repeat="chapter in manga.chapters" value="{{chapter[3]}}">{{chapter[0]}}</option>
-                    </select> >>
+                    </select>
+                </div>
+                <div class="desktop-2 tablet-2 columns">
+                    Page
                     <select name="currentImage" ng-model="currentImage">
                         <option ng-repeat="c in chapter.images" value="{{c[0]}}">{{c[0] + 1}}</option>
                     </select>
                 </div>
-                <div class="col col-sm-6" style="text-align: right">
+                <div class="desktop-2 tablet-2 columns" style="padding-top: 42px;">
                     <a href="" ng-click="prevChapter()"> << Prev</a> | <a href="" ng-click="nextChapter()">Next >></a>
                 </div>
             </div>
+            <div class="clear"></div>
         </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col col-sm-12">
-        <div class="panel" style="padding: 20px" id="pnl">
-            <div class="row">
-                <div class="col col-sm-12">
-                    <a href="" ng-click="nextImage()"><img
-                            src="https://cdn.mangaeden.com/mangasimg/{{chapter.images[totalImages - currentImage][1]}}"
-                            class="img-responsive shelf-img"></a>
-                </div>
-            </div>
-
-            <!--<h2>Content</h2>
-            Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae
-            dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia cor magni dolores
-            eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit,
-            sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.
-            Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
-
-            <hr>
-            <h4><a href="http://bootply.com/">Bootply</a></h4>
-            <hr>-->
+        <div class="clear"></div>
+        <div class="desktop-12 columns">
+            <a href="" id="dynamic" ng-click="nextImage()" ng-keydown="$event.keyCode === 39 && nextImage()"><img
+                src="https://cdn.mangaeden.com/mangasimg/{{chapter.images[totalImages - currentImage][1]}}" class="img-center"></a>
         </div>
+        <div class="clear"></div>
     </div>
-</div>
+</section>
