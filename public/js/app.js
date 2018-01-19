@@ -1,4 +1,4 @@
-angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
+angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
     .factory('MangalistDto', function () {
         var MangalistDto = function (data) {
             angular.extend(this, {
@@ -37,12 +37,12 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
                 redirectTo: "/"
             })
     })
-    .service("MangaService", function ($http) {
+    .service("MangaService", function ($http, toaster) {
         this.getMangaList = function (paging) {
             return $http.post("/api/manga/list/", paging).then(function (response) {
                 return response;
             }, function (response) {
-                //alert("Error finding mangas.");
+                toaster.error("error", "Error finding mangas");
             });
         },
         this.getManga = function (id) {
@@ -50,7 +50,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
             return $http.get(url).then(function (response) {
                 return response;
             }, function (response) {
-                //alert("Error getting manga.");
+                toaster.error("error", "Error getting manga");
             });
         },
         this.getChapter = function (chapterId) {
@@ -58,7 +58,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
             return $http.get(url).then(function (response) {
                 return response;
             }, function (response) {
-                //alert("Error getting chapter.");
+                toaster.error("error", "Error getting chapter");
             });
         }
     })
