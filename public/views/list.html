@@ -1,4 +1,4 @@
-<section id="works">
+<section id="works" cg-busy="promise">
     <div class="container">
         <div class="desktop-6 columns">
             <input type="text" placeholder="search" ng-model="paging.keyword" />
@@ -49,7 +49,7 @@
             <div class="border-top"></div>
         </div>
         <a ng-href="#/manga/{{manga.i}}" class="permalink" ng-repeat="manga in mangalist">
-            <div class="desktop-3 mobile-half columns" style="min-height: 390px;">
+            <div class="desktop-3 mobile-half columns" style="min-height: 395px;">
                 <div class="item first-row">
                     <h3>{{ manga.t }}</h3>
                     <span class="category">{{manga.c.join(', ')}}</span>

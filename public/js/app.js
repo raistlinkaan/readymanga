@@ -63,13 +63,14 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         }
     })
     .controller("ListController", function ($scope, MangaService, MangalistDto, mangas) {
+        $scope.promise = mangas;
         $scope.mangalist = htmlDecode(mangas.data.list);
         $scope.paging = new MangalistDto(mangas.data);
         delete $scope.paging.list;
 
         $scope.search = function () {
             $scope.paging.pageIndex = 1;
-            MangaService.getMangaList($scope.paging).then(function (doc) {
+            $scope.promise = MangaService.getMangaList($scope.paging).then(function (doc) {
                 $scope.mangalist = htmlDecode(doc.data.list);
                 $scope.paging = new MangalistDto(doc.data);
                 delete $scope.paging.list;
@@ -85,7 +86,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         $scope.pageChange = function (num) {
             $scope.paging.pageIndex += num;
             
-            MangaService.getMangaList($scope.paging).then(function (doc) {
+            $scope.promise = MangaService.getMangaList($scope.paging).then(function (doc) {
                 $scope.mangalist = htmlDecode(doc.data.list);
                 $scope.paging = new MangalistDto(doc.data);
                 delete $scope.paging.list;
@@ -95,7 +96,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         };
     })
     .controller("MangaController", function ($scope, $routeParams, MangaService, $location) {
-        MangaService.getManga($routeParams.id).then(function (doc) {
+        $scope.promise = MangaService.getManga($routeParams.id).then(function (doc) {
             doc.data.id = $routeParams.id;
             $scope.manga = doc.data;
             $scope.manga.description = he.unescape($scope.manga.description);
@@ -113,7 +114,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         
         if($routeParams.chapterid && $routeParams.mangaid)
         {
-            MangaService.getManga($routeParams.mangaid).then(function (doc) {
+            $scope.promise = MangaService.getManga($routeParams.mangaid).then(function (doc) {
                 $scope.manga = doc.data;
                 $scope.selectedChapterId = $routeParams.chapterid;
                 $scope.selectedChapterOrder = getChapterCount($scope.manga.chapters, $scope.selectedChapterId);
