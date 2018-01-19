@@ -23,7 +23,7 @@ router.post('/manga/list/', function (req, res) {
 
     async.parallel([
         function(callback) {
-            mangas.find(whereSearch, { skip: paging.skip, limit: 12, sort: { t: 1 } }, function (err, docs) {
+            mangas.find(whereSearch, { skip: paging.skip, limit: 12, sort: { h: -1 } }, function (err, docs) {
                 if (err) throw err;
                 paging.list = docs;
                 callback();

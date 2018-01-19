@@ -10,6 +10,8 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
             });
             angular.extend(this, data);
         }
+        
+        //delete MangalistDto.paging.list;
         return MangalistDto;
     })
     .config(function ($routeProvider) {
@@ -63,12 +65,14 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
     .controller("ListController", function ($scope, MangaService, MangalistDto, mangas) {
         $scope.mangalist = htmlDecode(mangas.data.list);
         $scope.paging = new MangalistDto(mangas.data);
+        delete $scope.paging.list;
 
         $scope.search = function () {
             $scope.paging.pageIndex = 1;
             MangaService.getMangaList($scope.paging).then(function (doc) {
                 $scope.mangalist = htmlDecode(doc.data.list);
                 $scope.paging = new MangalistDto(doc.data);
+                delete $scope.paging.list;
             }, function (response) {
                 //alert(response);
             });
@@ -84,6 +88,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate'])
             MangaService.getMangaList($scope.paging).then(function (doc) {
                 $scope.mangalist = htmlDecode(doc.data.list);
                 $scope.paging = new MangalistDto(doc.data);
+                delete $scope.paging.list;
             }, function (response) {
                 //alert(response);
             });
