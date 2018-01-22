@@ -4,7 +4,9 @@
             <div class="sidebar sticky">
                 <div class="desktop-3 tablet-12 mobile-half columns">
                     <div class="box-info">
-                        <h3 class="border-top">{{manga.title}}</h3>
+                        <h3 class="page-header" style="margin-top: 18px;">{{manga.title}}</h3>
+                        <br />
+                        <a href="" ng-click="addOrRemove()"><img src="img/{{manga.isFavorite == 1 ? 'remove.png' : 'add.png'}}" style="margin-bottom: -7px;" /> {{manga.isFavorite == 1 ? 'remove from' : 'add to'}} favorites</a>
                     </div>
                 </div>
                 <div class="desktop-3 tablet-12 mobile-half columns">
@@ -43,6 +45,7 @@
             <h3 style="border-bottom: 1px solid #f5f5f5; padding-bottom:40px;padding-top: 30px;">Chapters</h3>
             <table class="table" show-filter="true">
                 <tr>
+                    <th></th>
                     <th>
                         Chapter number
                     </th>
@@ -51,6 +54,7 @@
                     </th>
                 </tr>
                 <tr ng-repeat="chapter in manga.chapters" style="cursor: pointer;" ng-click="detail(manga.id, chapter[3])">
+                    <td><img src="img/{{manga.readedChapters.indexOf(chapter[3]) != -1 ? 'check' : 'uncheck'}}.png" style="margin-bottom:0px;" /></td>
                     <td>{{ chapter[0] }}</td>
                     <td>
                         {{chapter[2] != null ? chapter[2] : chapter[0] }}

@@ -1,0 +1,18 @@
+<section id="works" cg-busy="promise">
+    <div class="container">
+        <div class="desktop-12 columns">
+            <h2 class="page-header">Favorites</h2>
+        </div>
+        <div class="desktop-12 columns" ng-if="mangalist.length === 0">
+            <p>Nothing found. Please go homepage and add some mangas you want to read to favorites</p>
+        </div>
+        <a ng-href="#/manga/{{manga.i}}" class="permalink" ng-repeat="manga in mangalist">
+            <div class="desktop-3 mobile-half columns" style="min-height: 395px;">
+                <div class="item first-row">
+                    <h3>{{ manga.t }}</h3>
+                    <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}" alt="" style="height:253px;" />
+                </div>
+            </div>
+        </a>
+    </div>
+</section>

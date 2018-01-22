@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongodb = require("mongodb");
 var monk = require('monk');
+var session = require('express-session');
 var db = monk('localhost:27017/manga');
 
 var routes = require('./routes/index');
@@ -24,6 +25,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(session({
+  secret: 'rdymng@3001_a_space_oddesy',
+  resave: true,
+  saveUninitialized: false
+}));
 
 //mongodb settings
 app.use(function(req,res,next){

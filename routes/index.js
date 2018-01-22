@@ -9,11 +9,11 @@ var request = limit(require("request")).to(10).per(1000);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Readymanga', loggedin: (req.session.userId ? 1 : 0) });
 });
 
 router.get('/syncall', function(req, res, next) {
-  res.render('sync', { title: 'Express' });
+  res.render('sync', { title: 'Readymanga' });
 });
 
 router.get('/sync', function(req, res, next) {
@@ -38,6 +38,19 @@ router.get('/sync', function(req, res, next) {
   }
   catch (e) {
     console.log(e);
+  }
+});
+
+router.get('/logout', function (req, res, next) {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(function (err) {
+      if (err) {
+        return next(err);
+      } else {
+        return res.redirect('/');
+      }
+    });
   }
 });
 

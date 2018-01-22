@@ -33,11 +33,33 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
                 controller: "ReadController",
                 templateUrl: "views/read.html"
             })
+            .when("/login/", {
+                controller: "LoginController",
+                templateUrl: "views/login.html"
+            })
+            .when("/favorites/", {
+                controller: "FavoritesController",
+                templateUrl: "views/favorites.html"
+            })
             .otherwise({
                 redirectTo: "/"
             })
     })
     .service("MangaService", function ($http, toaster) {
+        this.getFavorites = function () {
+            return $http.get("/api/manga/favorites/").then(function (response) {
+                return response;
+            }, function (response) {
+                toaster.error("error", "Error getting manga");
+            });
+        },
+        this.addRemoveFavorites = function (mangaid) {
+            return $http.post("/api/manga/addRemoveFavorites/", mangaid).then(function (response) {
+                return response;
+            }, function (response) {
+                toaster.error("error", "Error getting manga");
+            });
+        },
         this.getMangaList = function (paging) {
             return $http.post("/api/manga/list/", paging).then(function (response) {
                 return response;
@@ -46,19 +68,33 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
             });
         },
         this.getManga = function (id) {
-            var url = "/api/manga/" + id;
+            var url = "/api/manga/detail/" + id;
             return $http.get(url).then(function (response) {
                 return response;
             }, function (response) {
                 toaster.error("error", "Error getting manga");
             });
         },
-        this.getChapter = function (chapterId) {
-            var url = "/api/manga/chapter/" + chapterId;
+        this.getChapter = function (mangaId, chapterId) {
+            var url = "/api/manga/chapter/" + mangaId + "/" + chapterId;
             return $http.get(url).then(function (response) {
                 return response;
             }, function (response) {
                 toaster.error("error", "Error getting chapter");
+            });
+        },
+        this.login = function (user) {
+            return $http.post("/api/usr/login/", user).then(function (response) {
+                return response;
+            }, function (response) {
+                toaster.error("error", "Error getting user");
+            });
+        },
+        this.register = function (user) {
+            return $http.post("/api/usr/register/", user).then(function (response) {
+                return response;
+            }, function (response) {
+                toaster.error("error", "Error getting user");
             });
         }
     })
@@ -74,8 +110,6 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
                 $scope.mangalist = htmlDecode(doc.data.list);
                 $scope.paging = new MangalistDto(doc.data);
                 delete $scope.paging.list;
-            }, function (response) {
-                //alert(response);
             });
         };
 
@@ -90,43 +124,80 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
                 $scope.mangalist = htmlDecode(doc.data.list);
                 $scope.paging = new MangalistDto(doc.data);
                 delete $scope.paging.list;
-            }, function (response) {
-                //alert(response);
             });
         };
     })
-    .controller("MangaController", function ($scope, $routeParams, MangaService, $location) {
+    .controller("LoginController", function ($scope, MangaService, $location, $window, toaster) {
+        $scope.login = function() {
+            var user = { email: $scope.login.email, password: $scope.login.password };
+            $scope.promise = MangaService.login(user).then(function (doc) {
+                if(doc.data.result === 1)
+                {
+                    $location.path('/favorites/');
+                    $window.location.reload();
+                }
+                else
+                    toaster.error("error", doc.data.error);
+            });
+        }
+
+        $scope.register = function() {
+            var user = { name: $scope.register.username, email: $scope.register.email, password: $scope.register.password };
+            $scope.promise = MangaService.register(user).then(function (doc) {
+                if(doc.data.result === 1)
+                {
+                    $location.path('/favorites/');
+                    $window.location.reload();
+                }
+                else
+                    toaster.error("error", doc.data.error);
+            });
+        }
+    })
+    .controller("FavoritesController", function ($scope, MangaService, $location) {
+        $scope.promise = MangaService.getFavorites().then(function (doc) {
+            if(doc.data.result == 1)
+                $scope.mangalist = htmlDecode(doc.data.list);
+            else
+                $location.path('/login/');  
+        });
+    })
+    .controller("MangaController", function ($scope, $routeParams, MangaService, $location, toaster) {
         $scope.promise = MangaService.getManga($routeParams.id).then(function (doc) {
             doc.data.id = $routeParams.id;
             $scope.manga = doc.data;
             $scope.manga.description = he.unescape($scope.manga.description);
             $scope.manga.status = mangastatus[$scope.manga.status];
-        }, function (response) {
-            //alert(response);
         });
 
+        $scope.addOrRemove = function(mangaid){
+            $scope.promise = MangaService.addRemoveFavorites({id: $routeParams.id}).then(function (doc) {
+                if(doc.data.result === 1)
+                    $scope.manga.isFavorite = doc.data.status;
+                else
+                    toaster.error("error", doc.data.error);
+            });
+        }
+
         $scope.detail = function(mangaid, chapterid){
-            $location.path('/read/'+mangaid+'/'+chapterid+'');
+            $location.path('/read/' + mangaid + '/' + chapterid);
         }
     })
-    .controller("ReadController", function ($scope, $routeParams, $location, MangaService) {
+    .controller("ReadController", function ($scope, $routeParams, $location, $window, MangaService) {
         $scope.currentImage = "0";
         
         if($routeParams.chapterid && $routeParams.mangaid)
         {
             $scope.promise = MangaService.getManga($routeParams.mangaid).then(function (doc) {
                 $scope.manga = doc.data;
+                $scope.manga.id = $routeParams.mangaid;
                 $scope.selectedChapterId = $routeParams.chapterid;
                 $scope.selectedChapterOrder = getChapterCount($scope.manga.chapters, $scope.selectedChapterId);
 
-                MangaService.getChapter($routeParams.chapterid).then(function (doc) {
+                MangaService.getChapter($routeParams.mangaid, $routeParams.chapterid).then(function (doc) {
                     $scope.chapter = doc.data;
                     $scope.totalImages = $scope.chapter.images.length -1;
-                }, function (response) {
-                    //alert(response);
                 });
-            }, function (response) {
-                //alert(response);
             });
         }
 
@@ -138,6 +209,8 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
                 $scope.selectedChapterOrder--;
                 $location.path("/read/"+ $routeParams.mangaid+ "/" + $scope.manga.chapters[$scope.selectedChapterOrder][3]);
             }
+
+            $window.scrollTo(0, angular.element(document.getElementById('dynamicImg')).offset().top);
         };
 
         $scope.nextChapter = function () {

@@ -1796,3 +1796,8 @@ b, strong { font-weight: bold; }
     margin-right: auto;
     /*width: 40%;*/
 }
+
+.page-header {
+	font-size: x-large;
+	padding: 10px 0px 10px 0px;
+}
