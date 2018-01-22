@@ -18,12 +18,7 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         $routeProvider
             .when("/", {
                 templateUrl: "views/list.html",
-                controller: "ListController",
-                resolve: {
-                    mangas: function (MangaService, MangalistDto) {
-                        return MangaService.getMangaList(new MangalistDto());
-                    }
-                }
+                controller: "ListController"
             })
             .when("/manga/:id", {
                 controller: "MangaController",
@@ -98,11 +93,16 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
             });
         }
     })
-    .controller("ListController", function ($scope, MangaService, MangalistDto, mangas) {
-        $scope.promise = mangas;
-        $scope.mangalist = htmlDecode(mangas.data.list);
-        $scope.paging = new MangalistDto(mangas.data);
-        delete $scope.paging.list;
+    .controller("ListController", function ($scope, MangaService, MangalistDto) {
+        $scope.promise = MangaService.getMangaList(new MangalistDto()).then(function (doc) {
+            $scope.mangalist = htmlDecode(doc.data.list);
+            $scope.paging = new MangalistDto(doc.data);
+            delete $scope.paging.list;
+
+            $scope.numberOfPages = function(){
+                return Math.ceil($scope.paging.total / $scope.paging.pageSize);                
+            }
+        });
 
         $scope.search = function () {
             $scope.paging.pageIndex = 1;
@@ -112,10 +112,6 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
                 delete $scope.paging.list;
             });
         };
-
-        $scope.numberOfPages = function(){
-            return Math.ceil($scope.paging.total / $scope.paging.pageSize);                
-        }
 
         $scope.pageChange = function (num) {
             $scope.paging.pageIndex += num;
