@@ -27,9 +27,10 @@
             <div class="clear"></div>
         </div>
         <div class="clear"></div>
-        <div class="desktop-12 columns">
-            <a href="" id="dynamicImg" ng-click="nextImage()" ng-keydown="$event.keyCode === 39 && nextImage()"><img
-                src="https://cdn.mangaeden.com/mangasimg/{{chapter.images[totalImages - currentImage][1]}}" class="img-center"></a>
+        <div class="desktop-12 columns" id="img_page">
+            <a href="" id="dynamicImg" ng-click="nextImage()" ng-keydown="$event.keyCode === 39 && nextImage()">
+                <img
+                src="https://cdn.mangaeden.com/mangasimg/{{chapter.images[totalImages - currentImage][1]}}" class="img-center" imageonload></a>
         </div>
         <div class="clear"></div>
     </div>

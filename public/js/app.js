@@ -197,9 +197,16 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
             });
         }
 
+        $scope.imageLoaded = function () {
+            
+        };
+
         $scope.nextImage = function () {
             if(parseInt($scope.currentImage) != $scope.totalImages)
+            {
+                run_waitMe($('#img_page'));
                 $scope.currentImage = (parseInt($scope.currentImage) + 1).toString();
+            }
             else
             {
                 $scope.selectedChapterOrder--;
@@ -222,6 +229,18 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         $scope.changeChapter = function () {
             $location.path("/read/"+ $routeParams.mangaid+ "/" + $scope.selectedChapterId);
         };
+    }).directive('imageonload', function() {
+        return {
+            restrict: 'A',
+            link: function(scope, element, attrs) {
+                element.bind('load', function() {
+                    $('#img_page').waitMe('hide');
+                });
+                element.bind('error', function(){
+                    alert('image could not be loaded');
+                });
+            }
+        };
     });
 
 function htmlDecode(arr)
@@ -239,4 +258,19 @@ function getChapterCount(arr,id)
         if(arr[i][3] == id)
             return i;
     }
+}
+
+function run_waitMe(el){
+    el.waitMe({
+        effect: 'bounce',
+        text: 'Please wait...',
+        bg: 'rgba(255,255,255,0.7)',
+        color: '#000',
+        maxSize: '',
+        waitTime: -1,
+        source: 'img.svg',
+        textPos: 'vertical',
+        fontSize: '',
+        onClose: function(el) {}
+    });
 }
