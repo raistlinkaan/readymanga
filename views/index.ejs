@@ -1,86 +1,131 @@
-<!DOCTYPE html>
-<html lang="en" ng-app="mangasApp">
-<head>
-	<meta charset="utf-8">
-	<title>{{title}}</title>
-	<meta name="description" content="simple and clean manga reader application">
-	<meta name="author" content="Kaan Arslan">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    
-	<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/3.8.0/build/cssreset/cssreset-min.css">
-	<link rel="stylesheet" type="text/css" href="css/typegrid.css">
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/toaster.min.css">
-	<link rel="stylesheet" type="text/css" href="js/plugins/angular-busy.css">
-	<link rel="stylesheet" type="text/css" href="css/waitMe.css">
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,300' rel='stylesheet' type='text/css'>
+<!doctype html>
+<html lang="en" dir="ltr" ng-app="mangasApp">
 
-	<link rel="shortcut icon" href="img/favicon.png">
-	<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-</head>
-<body>
-	<toaster-container toaster-options="{'close-button': true, 'time-out': 3000}"></toaster-container>
-    <section id="header">
-        <div class="topbar">
-                <div class="container">
-                    <ul id="nav" class="full">
-                        <li>
-                            <a href="/#/">
-                                <span class="count hide-on-mobile">01.</span>
-                                Home
-                            </a>
-                            <!--<ul>
-								<li><a href="/sync">Sync</a></li>
-							</ul>-->
-							<ul>
-								<% if (loggedin == 1) { %>
-									<li><a href="/#/favorites/">Favorites</a></li>
-									<li><a href="/logout/">Logout</a></li>
-								<% } else { %>
-									<li><a href="/#/login/">Sign-in or Sign-up</a></li>
-								<% } %>
-                            </ul>
-						</li>
-                    </ul>
-                </div>
-            </div>
-    </section>
-	<div ng-view></div>
-	<section id="footer">
-		<div class="container">
-			<div class="desktop-5 columns">
-                <p>Developed by <a href="arslankaan.com" class="italic">Kaan Arslan</a> 
-                    using by <a href="http://www.mangaeden.com" target="_blank">mangaeden</a> api</p>
-			</div>
-			<div class="clear"></div>
-		</div>
-    </section>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-	<script src="js/plugins/jQuery.BlackAndWhite.min.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta http-equiv="Content-Language" content="en" />
+	<meta name="msapplication-TileColor" content="#2d89ef">
+	<meta name="theme-color" content="#4188c9">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="mobile-web-app-capable" content="yes">
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<link rel="icon" href="img/favicon.png" type="image/x-icon" />
+	<link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
+	<title><%=title %></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,500,500i,600,600i,700,700i&amp;subset=latin-ext">
+	<link href="assets/css/dashboard.css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="assets/css/toaster.min.css">
+	<link rel="stylesheet" type="text/css" href="js/plugins/angular-busy.css">
+	<link rel="stylesheet" type="text/css" href="assets/css/waitMe.css">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="js/plugins/bootstrap.bundle.min.js"></script>
+	<script src="js/core.js"></script>
 	<script src="js/plugins/modernizr.js"></script>
 	<script src="js/plugins/underscore-min.js"></script>
 	<script src="js/plugins/he.js"></script>
-	<script src="js/plugins/less-1.4.0.min.js"></script>
-	<script src="js/plugins/jquery.typeMenu.js"></script>
-	<script src="js/plugins/jquery.typeSticky.js"></script>
-	<script src="js/plugins/jquery.custom.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-animate.js"></script>
 	<script src="js/plugins/angular-busy.js"></script>
 	<script src="js/plugins/toaster.min.js"></script>
 	<script src="js/plugins/waitMe.js"></script>
 	<script src="js/enums.js"></script>
 	<script src="js/app.js"></script>
-	
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112823995-1"></script>
-	<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-
-	gtag('config', 'UA-112823995-1');
-	</script>
+</head>
+<body>
+	<toaster-container toaster-options="{'close-button': true, 'time-out': 3000}"></toaster-container>
+	<div class="page">
+		<div class="page-main">
+			<div class="header py-4">
+				<div class="container">
+					<div class="d-flex">
+						<a class="header-brand" href="/#/">
+							<!--<img src="./demo/brand/tabler.svg" class="header-brand-img" alt="tabler logo">-->
+							readymanga
+						</a>
+						<div class="d-flex order-lg-2 ml-auto">
+							<% if (loggedin == 1) { %>
+								<div class="dropdown d-none d-md-flex">
+									<a href="" class="nav-link pr-0 leading-none" data-toggle="dropdown">
+										<span class="ml-2 d-none d-lg-block">
+											<span class="text-default"><%= username %></span>
+										</span>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+										<a class="dropdown-item" href="/logout/">
+											<i class="dropdown-icon fe fe-log-out"></i> Sign out
+										</a>
+									</div>
+								</div>
+								<% } else { %>
+									<div class="nav-item d-none d-md-flex">
+										<a class="btn btn-sm btn-outline-primary" href="/#/login/">Sign-in or Sign-up</a>
+									</div>
+									<% } %>
+						</div>
+						<a href="" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
+							<span class="header-toggler-icon"></span>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="header collapse d-lg-flex p-0" id="headerMenuCollapse">
+				<div class="container">
+					<div class="row align-items-center">
+						<!--<div class="col-lg-3 ml-auto">
+							<form class="input-icon my-3 my-lg-0">
+								<input type="search" class="form-control header-search" placeholder="Search&hellip;" tabindex="1">
+								<div class="input-icon-addon">
+									<i class="fe fe-search"></i>
+								</div>
+							</form>
+						</div>-->
+						<div class="col-lg order-lg-first">
+							<ul class="nav nav-tabs border-0 flex-column flex-lg-row">
+								<li class="nav-item">
+									<a href="/#/" class="nav-link">
+										<i class="fe fe-home"></i> Home</a>
+								</li>
+								<% if (loggedin == 1) { %>
+									<li class="nav-item">
+										<a href="/#/favorites/" class="nav-link">
+											<i class="fe fe-home"></i> Favorites</a>
+									</li>
+								<% } %>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="my-3 my-md-5">
+				<div ng-view></div>
+			</div>
+		</div>
+		<footer class="footer">
+			<div class="container">
+				<div class="row align-items-center flex-row-reverse">
+					<div class="col-auto ml-lg-auto">
+						<div class="row align-items-center">
+							<div class="col-auto">
+								<a href="https://github.com/raistlinkaan/readymanga" class="btn btn-outline-primary btn-sm">Source code</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-auto mt-3 mt-lg-0 text-center">
+						Developed by
+						<a href="http://www.arslankaan.com" class="italic">Kaan Arslan</a> using by
+						<a href="http://www.mangaeden.com" target="_blank">mangaeden</a> api. Theme by
+						<a href="https://codecalm.net" target="_blank">codecalm.net</a> All rights reserved.
+					</div>
+				</div>
+			</div>
+		</footer>
+	</div>
 </body>
 </html>

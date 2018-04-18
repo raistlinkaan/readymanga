@@ -9,7 +9,7 @@ var request = limit(require("request")).to(10).per(1000);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Readymanga', loggedin: (req.session.userId ? 1 : 0) });
+  res.render('index', { title: 'Ready Manga', loggedin: (req.session.userId ? 1 : 0), username: req.session.userName });
 });
 
 router.get('/syncall', function(req, res, next) {

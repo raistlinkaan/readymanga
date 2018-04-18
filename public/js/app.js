@@ -102,6 +102,10 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
             $scope.numberOfPages = function(){
                 return Math.ceil($scope.paging.total / $scope.paging.pageSize);                
             }
+
+            $scope.redirect = function(i){
+                window.location = "/#/manga/" + i;            
+            }
         });
 
         $scope.search = function () {
@@ -157,6 +161,10 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
             else
                 $location.path('/login/');  
         });
+
+        $scope.redirect = function(i){
+            window.location = "/#/manga/" + i;            
+        }
     })
     .controller("MangaController", function ($scope, $routeParams, MangaService, $location, toaster) {
         $scope.promise = MangaService.getManga($routeParams.id).then(function (doc) {

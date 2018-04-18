@@ -1,67 +1,66 @@
-<section id="works" class="page single" cg-busy="promise">
-    <div class="container">
-        <div class="desktop-3 tablet-12 nested columns">
-            <div class="sidebar sticky">
-                <div class="desktop-3 tablet-12 mobile-half columns">
-                    <div class="box-info">
-                        <h3 class="page-header" style="margin-top: 18px;">{{manga.title}}</h3>
+<div class="container" cg-busy="promise">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{manga.title}}</h5>
+                    <a href="" ng-click="addOrRemove()" ng-class="manga.isFavorite == 1 ? 'btn btn-success' : 'btn btn-danger'" style="width: 100%;">
+                        <!--<img src="img/{{manga.isFavorite == 1 ? 'remove.png' : 'add.png'}}" style="margin-bottom: -7px;" />-->
+                        {{manga.isFavorite == 1 ? 'remove from' : 'add to'}} favorites</a>
+                    <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.image }}" style="margin-top: 20px;margin-bottom: 20px;">
+                    <p class="card-text" style="text-align: justify;text-justify: inter-word;">{{manga.description}}</p>
+                </div>
+                <div class="card-footer">
+                    <p>
+                        <b>Artist:</b> {{manga.artist}}
                         <br />
-                        <a href="" ng-click="addOrRemove()"><img src="img/{{manga.isFavorite == 1 ? 'remove.png' : 'add.png'}}" style="margin-bottom: -7px;" /> {{manga.isFavorite == 1 ? 'remove from' : 'add to'}} favorites</a>
-                    </div>
+                        <b>Author:</b> {{manga.author}}
+                        <br />
+                        <b>First Released:</b> {{manga.released}}
+                        <br />
+                        <b>Status:</b> {{manga.status}}
+                        <br />
+                        <b>Genres:</b> {{manga.categories.join(', ')}}
+                    </p>
                 </div>
-                <div class="desktop-3 tablet-12 mobile-half columns">
-                    <div class="box-info">
-                        <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.image }}" style="margin-bottom:0px;">
-                        <p>{{manga.description}}</p>
-                    </div>
-                </div>
-                <div class="desktop-3 tablet-6 mobile-half columns">
-                    <div class="box-info" style="border-top: 1px solid #f5f5f5;">
-                        <p>
-                            <b>Artist:</b> {{manga.artist}}
-                            <br />
-                            <b>Author:</b> {{manga.author}}
-                            <br />
-                            <b>First Released:</b> {{manga.released}}
-                            <br />
-                            <b>Status:</b> {{manga.status}}
-                        </p>
-                    </div>
-                </div>
-                <div class="desktop-3 tablet-6 mobile-half columns">
-                    <div class="box-info" style="border-top: 1px solid #f5f5f5;">
-                        <h3>Genres</h3>
-                        <p style="display:block;">
-                            <span ng-repeat="genre in manga.categories track by $index" class="label label-success" style="margin-right: 3px">{{genre}}
-                                <br />
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                <div class="clear"></div>
             </div>
         </div>
-        <div class="desktop-9 tablet-12 columns">
-            <h3 style="border-bottom: 1px solid #f5f5f5; padding-bottom:40px;padding-top: 30px;">Chapters</h3>
-            <table class="table" show-filter="true">
-                <tr>
-                    <th></th>
-                    <th>
-                        Chapter number
-                    </th>
-                    <th>
-                        Chapter name
-                    </th>
-                </tr>
-                <tr ng-repeat="chapter in manga.chapters" style="cursor: pointer;" ng-click="detail(manga.id, chapter[3])">
-                    <td><img src="img/{{manga.readedChapters.indexOf(chapter[3]) != -1 ? 'check' : 'uncheck'}}.png" style="margin-bottom:0px;" /></td>
-                    <td>{{ chapter[0] }}</td>
-                    <td>
-                        {{chapter[2] != null ? chapter[2] : chapter[0] }}
-                    </td>
-                </tr>
-            </table>
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Chapters</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap table-hover">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        Chapter number
+                                    </th>
+                                    <th>
+                                        Chapter name
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="chapter in manga.chapters" style="cursor: pointer;" ng-click="detail(manga.id, chapter[3])">
+                                    <td>
+                                        <img src="img/{{manga.readedChapters.indexOf(chapter[3]) != -1 ? 'check' : 'uncheck'}}.png"
+                                            style="margin-bottom:0px;" />
+                                    </td>
+                                    <td>{{ chapter[0] }}</td>
+                                    <td>
+                                        {{chapter[2] != null ? chapter[2] : chapter[0] }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="clear"></div>
     </div>
-</section>
+</div>
+</div>

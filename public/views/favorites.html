@@ -1,18 +1,23 @@
-<section id="works" cg-busy="promise">
-    <div class="container">
-        <div class="desktop-12 columns">
-            <h2 class="page-header">Favorites</h2>
-        </div>
-        <div class="desktop-12 columns" ng-if="mangalist.length === 0">
-            <p>Nothing found. Please go homepage and add some mangas you want to read to favorites</p>
-        </div>
-        <a ng-href="#/manga/{{manga.i}}" class="permalink" ng-repeat="manga in mangalist">
-            <div class="desktop-3 mobile-half columns" style="min-height: 395px;">
-                <div class="item first-row">
-                    <h3>{{ manga.t }}</h3>
-                    <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}" alt="" style="height:253px;" />
+<div class="container" cg-busy="promise">
+    <div class="page-header">
+        <h1 class="page-title">
+            Favorites
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-xl-3" ng-repeat="manga in mangalist">
+            <div class="card" style="min-height: 365px;cursor:pointer;" ng-click="redirect(manga.i)">
+                <div class="card-header">
+                    <h3 class="card-title">{{ manga.t }}</h3>
+                </div>
+                <div class="card-body">
+                    <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}" alt="" style="height:253px;" class="rounded mx-auto d-block"
+                    />
                 </div>
             </div>
-        </a>
+        </div>
     </div>
-</section>
+    <div class="desktop-12 columns" ng-if="mangalist.length === 0">
+        <p>Nothing found. Please go homepage and add some mangas you want to read to favorites</p>
+    </div>
+</div>

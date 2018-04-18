@@ -203,6 +203,7 @@ router.post("/usr/login/", function (req, res) {
                     res.status(200).json({result: 0, error: 'Wrong email or password'});
                 } else {
                     req.session.userId = user[0]._id;
+                    req.session.userName = user[0].name;
                     var oneWeek = 7 * 24 * 3600 * 1000; //1 weeks
                     req.session.cookie.expires = new Date(Date.now() + oneWeek);
                     req.session.cookie.maxAge = oneWeek; 
