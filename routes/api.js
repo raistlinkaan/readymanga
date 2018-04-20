@@ -161,7 +161,7 @@ router.get("/manga/favorites/", function (req, res) {
             var usermangas = [];
 
             for (i = 0; i < user[0].mangas.length; i++) {
-                if (user[0].mangas[i].isFavorite === true)
+                if (user[0].mangas[i].isFavorite === true && user[0].mangas[i].isArchive === false)
                     usermangas.push(user[0].mangas[i].mangaid)
             }
 
@@ -209,9 +209,8 @@ router.post("/manga/addRemoveArchive/", function (req, res) {
                     if (user[0].mangas[i].mangaid == req.body.id) {
                         isnew = false;
 
-                        user[0].mangas[i].isFavorite = !user[0].mangas[i].isFavorite;
+                        //user[0].mangas[i].isFavorite = !user[0].mangas[i].isFavorite;
                         user[0].mangas[i].isArchive = !user[0].mangas[i].isArchive;
-
                         break;
                     }
                 }
