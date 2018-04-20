@@ -140,7 +140,7 @@ router.post("/manga/addRemoveFavorites/", function (req, res) {
                 }
 
                 if (isnew == true) {
-                    user[0].mangas.push({ mangaid: req.body.id, isFavorite: true, chapters: [] });
+                    user[0].mangas.push({ mangaid: req.body.id, isFavorite: true, isArchive: false, chapters: [] });
                 }
 
                 db.get('users').update({ _id: req.session.userId }, { $set: { "mangas": user[0].mangas } }, function (err, doc) {
