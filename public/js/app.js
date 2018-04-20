@@ -186,11 +186,17 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
     })
     .controller("FavoritesController", function ($scope, MangaService, $location) {
         $scope.promise = MangaService.getFavorites().then(function (doc) {
-            if(doc.data.result == 1)
+            if(doc.data.result == 1) {
                 $scope.mangalist = htmlDecode(doc.data.list);
+                $scope.unreadChapters = doc.data.unreadChapters;
+            }
             else
-                $location.path('/login/');  
+                $location.path('/login/');
         });
+
+        $scope.getUnread = function(id) {
+            return $scope.unreadChapters[id];
+        }
 
         $scope.redirect = function(i){
             window.location = "/#/manga/" + i;            

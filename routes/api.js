@@ -7,6 +7,9 @@ var bcrypt = require('bcrypt');
 var pagingViewModel = require('../viewmodels/mangaPagingViewModel');
 var client = new Client();
 
+var detailAddress = "https://www.mangaeden.com/api/manga/";
+var chapterAddress = "https://www.mangaeden.com/api/chapter/";
+
 router.post('/manga/list/', function (req, res) {
     var db = req.db;
     var paging = new pagingViewModel();
@@ -44,7 +47,7 @@ router.post('/manga/list/', function (req, res) {
 });
 
 router.get("/manga/chapter/:mangaId/:chapterId", function (req, res) {
-    var address = "https://www.mangaeden.com/api/chapter/" + req.params.chapterId + "/";
+    var address = chapterAddress + req.params.chapterId + "/";
     client.get(address, function (data, response) {
         if (req.session.userId) {
             var db = req.db;
@@ -81,7 +84,7 @@ router.get("/manga/chapter/:mangaId/:chapterId", function (req, res) {
 });
 
 router.get("/manga/detail/:id", function (req, res) {
-    var address = "https://www.mangaeden.com/api/manga/" + req.params.id + "/";
+    var address = detailAddress + req.params.id + "/";
     client.get(address, function (data, response) {
         var db = req.db;
         data["isFavorite"] = 0;
@@ -159,8 +162,9 @@ router.get("/manga/favorites/", function (req, res) {
         db.get('users').find({ _id: req.session.userId }, { limit: 1 }, function (err, user) {
             if (err) throw err;
             var usermangas = [];
+            var unreadChapters = {};
 
-            for (i = 0; i < user[0].mangas.length; i++) {
+            /*for (i = 0; i < user[0].mangas.length; i++) {
                 if (user[0].mangas[i].isFavorite === true && user[0].mangas[i].isArchive === false)
                     usermangas.push(user[0].mangas[i].mangaid)
             }
@@ -168,7 +172,40 @@ router.get("/manga/favorites/", function (req, res) {
             db.get('mangas').find({ "i": { $in: usermangas } }, { sort: { h: -1 } }, function (err2, mangas) {
                 if (err2) throw err2;
                 res.status(200).json({ result: 1, list: mangas });
+            });*/
+
+            async.parallel([
+                function (callback) {
+                    var favorites = user[0].mangas = user[0].mangas.filter(function (x) {
+                        return x.isFavorite === true && x.isArchive === false;
+                    });
+
+                    for (i = 0; i < favorites.length; i++) {
+                        if (user[0].mangas[i].isFavorite === true && user[0].mangas[i].isArchive === false) {
+                            usermangas.push(user[0].mangas[i].mangaid);
+        
+                            (function (index) {
+                                client.get(detailAddress + user[0].mangas[index].mangaid + "/", function (data, response) {
+                                    unreadChapters[user[0].mangas[index].mangaid] = data.chapters.filter(function (x) {
+                                        return user[0].mangas[index].chapters.indexOf(x[3]) < 0;
+                                    }).length;
+
+                                    if(index == favorites.length -1)
+                                        callback();
+                                });
+                            }(i));
+                        }
+                    }
+                }
+            ], function (err, results) {
+                if (err) throw err;
+
+                db.get('mangas').find({ "i": { $in: usermangas } }, { sort: { h: -1 } }, function (err2, mangas) {
+                    if (err2) throw err2;
+                    res.status(200).json({ result: 1, list: mangas, unreadChapters: unreadChapters });
+                });
             });
+
         });
     }
     else
