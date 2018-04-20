@@ -7,10 +7,12 @@ var bodyParser = require('body-parser');
 var mongodb = require("mongodb");
 var monk = require('monk');
 var session = require('express-session');
+MongoStore = require('connect-mongo')(session);
 var db = monk('localhost:27017/manga');
 
 var routes = require('./routes/index');
 var api = require('./routes/api');
+var user = require('./routes/user');
 
 var app = express();
 
@@ -29,7 +31,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret: 'rdymng@3001_a_space_oddesy',
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
+  cookie: {maxAge: 60000 * 60 * 24 * 30}, // 30 days
+        store: new MongoStore({url: 'mongodb://localhost:27017/manga'})
 }));
 
 //mongodb settings
@@ -40,6 +44,7 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/api', api);
+app.use('/user', user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -12,10 +12,7 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Ready Manga', loggedin: (req.session.userId ? 1 : 0), username: req.session.userName });
 });
 
-router.get('/syncall', function(req, res, next) {
-  res.render('sync', { title: 'Readymanga' });
-});
-
+/* GET sync manga from mangaeden. */
 router.get('/sync', function(req, res, next) {
   try {
     var db = req.db;
@@ -41,6 +38,7 @@ router.get('/sync', function(req, res, next) {
   }
 });
 
+/* GET logout and redirect index. */
 router.get('/logout', function (req, res, next) {
   if (req.session) {
     // delete session object

@@ -51,20 +51,20 @@
 						</a>
 						<div class="d-flex order-lg-2 ml-auto">
 							<% if (loggedin == 1) { %>
-								<div class="dropdown d-none d-md-flex">
+								<div class="dropdown d-md-flex">
 									<a href="" class="nav-link pr-0 leading-none" data-toggle="dropdown">
-										<span class="ml-2 d-none d-lg-block">
+										<span class="ml-2 d-lg-block">
 											<span class="text-default"><%= username %></span>
 										</span>
 									</a>
 									<div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-										<a class="dropdown-item" href="/logout/">
+										<a class="dropdown-item" href="user/logout/">
 											<i class="dropdown-icon fe fe-log-out"></i> Sign out
 										</a>
 									</div>
 								</div>
 								<% } else { %>
-									<div class="nav-item d-none d-md-flex">
+									<div class="nav-item d-md-flex">
 										<a class="btn btn-sm btn-outline-primary" href="/#/login/">Sign-in or Sign-up</a>
 									</div>
 									<% } %>
@@ -95,8 +95,12 @@
 								<% if (loggedin == 1) { %>
 									<li class="nav-item">
 										<a href="/#/favorites/" class="nav-link">
-											<i class="fe fe-home"></i> Favorites</a>
+											<i class="fe fe-file-text"></i> Favorites</a>
 									</li>
+									<li class="nav-item">
+											<a href="/#/archive/" class="nav-link">
+												<i class="fe fe-server"></i> Archive</a>
+										</li>
 								<% } %>
 							</ul>
 						</div>
