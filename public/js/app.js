@@ -119,19 +119,22 @@ angular.module("mangasApp", ['ngRoute', 'ngAnimate','toaster','cgBusy'])
         }
     })
     .controller("ListController", function ($scope, MangaService, MangalistDto) {
+        $scope.mangalist = [];
+        $scope.paging = new MangalistDto();
+
         $scope.promise = MangaService.getMangaList(new MangalistDto()).then(function (doc) {
             $scope.mangalist = htmlDecode(doc.data.list);
             $scope.paging = new MangalistDto(doc.data);
-            delete $scope.paging.list;
-
-            $scope.numberOfPages = function(){
-                return Math.ceil($scope.paging.total / $scope.paging.pageSize);                
-            }
-
-            $scope.redirect = function(i){
-                window.location = "/#/manga/" + i;            
-            }
+            delete $scope.paging.list;   
         });
+
+        $scope.numberOfPages = function(){
+            return Math.ceil($scope.paging.total / $scope.paging.pageSize);                
+        }
+
+        $scope.redirect = function(i){
+            window.location = "/#/manga/" + i;            
+        }
 
         $scope.search = function () {
             $scope.paging.pageIndex = 1;

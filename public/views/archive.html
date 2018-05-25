@@ -6,9 +6,9 @@
     </div>
     <div class="row">
         <div class="col-md-3 col-xl-3" ng-repeat="manga in mangalist">
-            <div class="card" style="min-height: 365px;cursor:pointer;">
-                <div class="card-header" ng-click="redirect(manga.i)">
-                    <h3 class="card-title">{{ manga.t }}</h3>
+            <div class="card" style="min-height: 365px;">
+                <div class="card-header">
+                    <h3 class="card-title"><a href="/#/manga/{{manga.i}}"> {{ manga.t }} </a></h3>
                 </div>
                 <div class="card-body" ng-click="redirect(manga.i)">
                     <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}" alt="" style="height:253px;" class="rounded mx-auto d-block"/>

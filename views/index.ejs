@@ -22,21 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="assets/css/toaster.min.css">
 	<link rel="stylesheet" type="text/css" href="js/plugins/angular-busy.css">
 	<link rel="stylesheet" type="text/css" href="assets/css/waitMe.css">
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script src="js/plugins/bootstrap.bundle.min.js"></script>
-	<script src="js/core.js"></script>
-	<script src="js/plugins/modernizr.js"></script>
-	<script src="js/plugins/underscore-min.js"></script>
-	<script src="js/plugins/he.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-animate.js"></script>
-	<script src="js/plugins/angular-busy.js"></script>
-	<script src="js/plugins/toaster.min.js"></script>
-	<script src="js/plugins/waitMe.js"></script>
-	<script src="js/enums.js"></script>
-	<script src="js/app.js"></script>
+	<link rel="stylesheet" type="text/css" href="assets/css/custom.css">
 </head>
 <body>
 	<toaster-container toaster-options="{'close-button': true, 'time-out': 3000}"></toaster-container>
@@ -67,7 +53,7 @@
 									<div class="nav-item d-md-flex">
 										<a class="btn btn-sm btn-outline-primary" href="/#/login/">Sign-in or Sign-up</a>
 									</div>
-									<% } %>
+								<% } %>
 						</div>
 						<a href="" class="header-toggler d-lg-none ml-3 ml-lg-0" data-toggle="collapse" data-target="#headerMenuCollapse">
 							<span class="header-toggler-icon"></span>
@@ -101,6 +87,11 @@
 											<a href="/#/archive/" class="nav-link">
 												<i class="fe fe-server"></i> Archive</a>
 										</li>
+								<% } else { %>
+									<li class="nav-item">
+										<a href="/all-manga" class="nav-link">
+												<i class="fe fe-server"></i> All Mangas</a>
+									</li>
 								<% } %>
 							</ul>
 						</div>
@@ -108,7 +99,11 @@
 				</div>
 			</div>
 			<div class="my-3 my-md-5">
-				<div ng-view></div>
+				<% if (all == 0) { %>
+					<div ng-view></div>
+				<% } else { %>
+					<%- include('allmanga', { title: 'Ready Manga', loggedin: 0, all: 0 }); %>
+				<% } %>
 			</div>
 		</div>
 		<footer class="footer">
@@ -131,5 +126,30 @@
 			</div>
 		</footer>
 	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="js/plugins/bootstrap.bundle.min.js"></script>
+	<script src="js/core.js"></script>
+	<script src="js/plugins/modernizr.js"></script>
+	<script src="js/plugins/underscore-min.js"></script>
+	<script src="js/plugins/he.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-animate.js"></script>
+	<script src="js/plugins/angular-busy.js"></script>
+	<script src="js/plugins/toaster.min.js"></script>
+	<script src="js/plugins/waitMe.js"></script>
+	<script src="js/enums.js"></script>
+	<script src="js/app.js"></script>
+
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-112823995-1"></script>
+	<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-112823995-1');
+	</script>
 </body>
 </html>

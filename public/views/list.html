@@ -45,9 +45,9 @@
                                     <option value="Yuri">Yuri</option>
                                 </select>
                                 <span class="input-group-btn ml-2">
-                                    <button class="btn btn-sm btn-default" type="submit" ng-click="search()">
+                                    <a href="" class="btn btn-default" ng-click="search()">
                                         <span class="fe fe-search"></span>
-                                    </button>
+                                    </a>
                                 </span>
                             </div>
                         </form>
@@ -58,9 +58,15 @@
     </div>
     <div class="row">
         <div class="col-md-3 col-xl-3" ng-repeat="manga in mangalist">
-            <div class="card" style="min-height: 495px;cursor:pointer;" ng-click="redirect(manga.i)">
+            <div class="card" style="min-height: 495px;">
                 <div class="card-header">
-                    <h3 class="card-title">{{ manga.t }}</h3>
+                    <h3 class="card-title"><a href="/#/manga/{{manga.i}}"> {{ manga.t }} </a></h3>
+                    <!--<div class="mr-auto">
+                        <h4 class="card-title mb-0 d-inline align-middle">
+                            <a href="/#/manga/{{manga.i}}"> {{ manga.t }} </a>
+                        </h4>
+                    </div>
+                    <span class="badge badge-success px-4 py-1 mt-2">favorite</span>-->
                 </div>
                 <div class="card-body">
                     <img src="https://cdn.mangaeden.com/mangasimg/{{ manga.im }}" alt="" style="height:253px;" class="rounded mx-auto d-block"
@@ -72,7 +78,6 @@
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">

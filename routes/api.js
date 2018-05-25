@@ -19,7 +19,7 @@ router.post('/manga/list/', function (req, res) {
 
     if (paging.keyword != '') {
         var filter = new RegExp(paging.keyword, 'i');
-        whereSearch["t"] = filter;
+        whereSearch["t"] =  filter;
     }
 
     if (paging.category != '')
@@ -200,7 +200,7 @@ router.get("/manga/favorites/", function (req, res) {
             ], function (err, results) {
                 if (err) throw err;
 
-                db.get('mangas').find({ "i": { $in: usermangas } }, { sort: { h: -1 } }, function (err2, mangas) {
+                db.get('mangas').find({ "i": { $in: usermangas } }, { sort: { t: 1 } }, function (err2, mangas) {
                     if (err2) throw err2;
                     res.status(200).json({ result: 1, list: mangas, unreadChapters: unreadChapters });
                 });
@@ -224,7 +224,7 @@ router.get("/manga/archive/", function (req, res) {
                     usermangas.push(user[0].mangas[i].mangaid)
             }
 
-            db.get('mangas').find({ "i": { $in: usermangas } }, { sort: { h: -1 } }, function (err2, mangas) {
+            db.get('mangas').find({ "i": { $in: usermangas } }, { sort: { t: 1 } }, function (err2, mangas) {
                 if (err2) throw err2;
                 res.status(200).json({ result: 1, list: mangas });
             });

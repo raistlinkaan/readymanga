@@ -9,7 +9,20 @@ var request = limit(require("request")).to(10).per(1000);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Ready Manga', loggedin: (req.session.userId ? 1 : 0), username: req.session.userName });
+  res.render('index', { title: 'Ready Manga', loggedin: (req.session.userId ? 1 : 0), username: req.session.userName, all: 0 });
+});
+
+router.get('/all-manga', function(req, res, next) {
+  var db = req.db;
+  var page = !req.query.page ? 1 : parseInt(req.query.page);
+  db.get('mangas').find({}, { skip: (page - 1) * 1000, limit: 1000 }, function (err, docs) {
+    if (err) throw err;
+    db.get('mangas').count({}, function (err, countdocs) {
+      if (err) throw err;
+      let pagecount = Math.floor(countdocs / 1000) + 1;
+      res.render('index', { title: 'Ready Manga', loggedin: (req.session.userId ? 1 : 0), username: req.session.userName, all: 1, list: docs, pagecount: pagecount});
+    });
+  });
 });
 
 /* GET sync manga from mangaeden. */
@@ -31,7 +44,8 @@ router.get('/sync', function(req, res, next) {
       console.log('request error', err);
     });
 
-    res.render('index', { title: 'Express' });
+    //res.render('index', { title: 'Express' });
+    res.render('index', { title: 'Ready Manga', loggedin: (req.session.userId ? 1 : 0), username: req.session.userName, all: 0 });
   }
   catch (e) {
     console.log(e);

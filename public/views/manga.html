@@ -48,7 +48,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="chapter in manga.chapters" style="cursor: pointer;" ng-click="detail(manga.id, chapter[3])">
+                                <tr ng-repeat="chapter in manga.chapters" style="cursor: pointer;" ng-class="manga.readedChapters.indexOf(chapter[3]) != -1 ? 'read' : ''" ng-click="detail(manga.id, chapter[3])">
                                     <td>
                                         <img src="img/{{manga.readedChapters.indexOf(chapter[3]) != -1 ? 'check' : 'uncheck'}}.png"
                                             style="margin-bottom:0px;" />
